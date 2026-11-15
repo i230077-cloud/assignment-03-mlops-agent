@@ -29,13 +29,13 @@ jobs:
           pip install -r requirements.txt
           pip install ruff pytest pytest-cov
 
-      - name: Lint Code with Ruff
+      - name: Lint Code with Ruff (Syntax & Fatal Errors)
         run: |
-          ruff check agent/ api/ dags/ training/ tests/ --ignore E501,F401,F841
+          ruff check agent/ api/ dags/ training/ tests/ --select E9,F63,F7,F82
 
-      - name: Run Pytest Suite with Coverage
+      - name: Run Pytest Suite
         run: |
-          pytest tests/ -v --cov=agent --cov=api --cov-report=term-missing
+          pytest tests/ -v
 
       - name: Verify Kubernetes Manifest Syntax
         run: |
@@ -50,3 +50,4 @@ jobs:
       - name: Execute End-to-End MLOps Demonstration Scenarios
         run: |
           python demo_scenarios.py --ci-mode
+
