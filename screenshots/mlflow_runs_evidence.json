@@ -1,0 +1,97 @@
+{
+  "experiment_id": "1",
+  "experiment_name": "customer-churn-prediction",
+  "total_runs_retrieved": 5,
+  "runs": [
+    {
+      "run_id": "0f9fb9e49d634cf59c0eac6c73f68ccd",
+      "run_name": "logistic_regression_run",
+      "status": "FINISHED",
+      "start_time": "2026-11-15 08:08:49",
+      "metrics": {
+        "accuracy": 0.7416666666666667,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "roc_auc": 0.582819862268938,
+        "training_latency_sec": 0.02428603172302246,
+        "inference_latency_ms": 0.07738669713338216
+      },
+      "model_type": "logistic_regression",
+      "dataset_version": "v2.0",
+      "git_commit": "ad6fb25d"
+    },
+    {
+      "run_id": "5d69abbd8f164c14b0540aca6d99e5c4",
+      "run_name": "gradient_boosting_run",
+      "status": "FINISHED",
+      "start_time": "2026-11-15 08:08:26",
+      "metrics": {
+        "accuracy": 0.675,
+        "precision": 0.16666666666666666,
+        "recall": 0.06451612903225806,
+        "f1_score": 0.09302325581395349,
+        "roc_auc": 0.4193548387096774,
+        "training_latency_sec": 0.37052249908447266,
+        "inference_latency_ms": 0.11667410532633464
+      },
+      "model_type": "gradient_boosting",
+      "dataset_version": "v2.0",
+      "git_commit": "ad6fb25d"
+    },
+    {
+      "run_id": "f877a3d927ff49b19497ee4c532be46e",
+      "run_name": "random_forest_run",
+      "status": "FINISHED",
+      "start_time": "2026-11-15 08:08:05",
+      "metrics": {
+        "accuracy": 0.7333333333333333,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "roc_auc": 0.4802464661109098,
+        "training_latency_sec": 0.18570351600646973,
+        "inference_latency_ms": 0.1003583272298177
+      },
+      "model_type": "random_forest",
+      "dataset_version": "v2.0",
+      "git_commit": "ad6fb25d"
+    },
+    {
+      "run_id": "e902573f2b1047de81f8dd083f50b5d0",
+      "run_name": "logistic_regression_run",
+      "status": "FINISHED",
+      "start_time": "2026-11-15 08:07:23",
+      "metrics": {
+        "accuracy": 0.7416666666666667,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0,
+        "roc_auc": 0.582819862268938,
+        "training_latency_sec": 0.02547144889831543,
+        "inference_latency_ms": 0.06988843282063802
+      },
+      "model_type": "logistic_regression",
+      "dataset_version": "v2.0",
+      "git_commit": "ad6fb25d"
+    },
+    {
+      "run_id": "fc395e32264049efa2d4587e214945f1",
+      "run_name": "gradient_boosting_run",
+      "status": "FAILED",
+      "start_time": "2026-11-15 08:07:13",
+      "metrics": {
+        "accuracy": 0.675,
+        "precision": 0.16666666666666666,
+        "recall": 0.06451612903225806,
+        "f1_score": 0.09302325581395349,
+        "roc_auc": 0.4193548387096774,
+        "training_latency_sec": 0.3818397521972656,
+        "inference_latency_ms": 0.0751177469889323
+      },
+      "model_type": "gradient_boosting",
+      "dataset_version": "v2.0",
+      "git_commit": "ad6fb25d"
+    }
+  ]
+}

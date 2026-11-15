@@ -1,0 +1,23 @@
+artifact_path: file:C:/Users/Saad/OneDrive/Desktop/assignment_03_mlops_agent/mlruns/1/models/m-2826ba70deed4f50b238ad28c99b0372/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.12.10
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: cloudpickle
+    sklearn_version: 1.9.1
+    skops_trusted_types: null
+mlflow_version: 3.18.0
+model_id: m-2826ba70deed4f50b238ad28c99b0372
+model_size_bytes: 263098
+model_uuid: m-2826ba70deed4f50b238ad28c99b0372
+prompts: null
+run_id: 5d69abbd8f164c14b0540aca6d99e5c4
+utc_time_created: '2026-11-15 08:08:27.461489'

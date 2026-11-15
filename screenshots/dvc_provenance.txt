@@ -1,0 +1,11 @@
+=== DVC & GIT DATASET PROVENANCE EVIDENCE ===
+{
+  "dataset_path": "data/raw/customer_churn.csv",
+  "dvc_hash": "90777de98deb16fcd13b0a30d430c68c",
+  "git_commit": "ad6fb25de44d410c07df660ca0d9542a6b51a7d2",
+  "git_tag": "v2.0",
+  "commit_author": "MLOps Engineer",
+  "commit_date": "2026-11-15 13:06:10 +0500",
+  "commit_message": "feat(data): update churn dataset to v2.0 with 600 records",
+  "remote_storage": "localremote (C:/Users/Saad/.dvc_remote)"
+}

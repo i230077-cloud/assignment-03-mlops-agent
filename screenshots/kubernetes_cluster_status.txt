@@ -1,0 +1,79 @@
+=== KUBERNETES DEFAULT DEPLOYMENTS & PODS ===
+{
+  "namespace": "default",
+  "deployments_count": 1,
+  "deployments": [
+    {
+      "name": "churn-inference-deployment",
+      "namespace": "default",
+      "replicas": 2,
+      "ready_replicas": 2,
+      "available_replicas": 2,
+      "image": "churn-inference:v1.2.0",
+      "version": "v1.2.0",
+      "healthy": true,
+      "strategy": "RollingUpdate"
+    }
+  ],
+  "pods_count": 2,
+  "pods": [
+    {
+      "name": "churn-inference-deployment-7b8f9c-4x8w1",
+      "phase": "Running",
+      "ready": true,
+      "restart_count": 0,
+      "node": "worker-node-01"
+    },
+    {
+      "name": "churn-inference-deployment-7b8f9c-9k2m5",
+      "phase": "Running",
+      "ready": true,
+      "restart_count": 0,
+      "node": "worker-node-02"
+    }
+  ]
+}
+
+=== KUBERNETES MLOPS FAILURE DIAGNOSTICS ===
+{
+  "unhealthy_pods": [
+    {
+      "name": "broken-model-canary-6699ff-err01",
+      "namespace": "mlops",
+      "phase": "CrashLoopBackOff",
+      "ready": false,
+      "restart_count": 5,
+      "node_name": "worker-node-03",
+      "container_statuses": [
+        {
+          "name": "canary-api",
+          "ready": false,
+          "restart_count": 5,
+          "state": {
+            "waiting": {
+              "reason": "CrashLoopBackOff",
+              "message": "Back-off 5m0s restarting failed container"
+            }
+          }
+        }
+      ],
+      "logs": "2026-11-15 11:45:00 [INFO] Starting broken canary inference container...\n2026-11-15 11:45:02 [CRITICAL] MemoryError: Model weights exceeded container memory limit (512Mi).\n2026-11-15 11:45:02 [ERROR] Fatal exception during startup. Terminating with exit code 137 (OOMKilled).\n"
+    }
+  ],
+  "warning_events": [
+    {
+      "type": "Warning",
+      "reason": "OOMKilled",
+      "message": "Pod was terminated due to exceeding memory limit of 512Mi",
+      "object": "broken-model-canary-6699ff-err01"
+    },
+    {
+      "type": "Warning",
+      "reason": "BackOff",
+      "message": "Back-off restarting failed container canary-api in pod broken-model-canary-6699ff-err01",
+      "object": "broken-model-canary-6699ff-err01"
+    }
+  ],
+  "root_cause": "Pod 'broken-model-canary-6699ff-err01' is in CrashLoopBackOff with 5 restarts. Logs confirm exit code 137 (OOMKilled) caused by model memory exceeding the 512Mi container limit.",
+  "recommended_action": "Update kubernetes/deployment.yaml to increase memory limits to 1Gi or 2Gi, and apply with user confirmation."
+}

@@ -1,0 +1,10 @@
+"""
+Pytest configuration and root sys.path setup
+"""
+import sys
+import os
+
+# Ensure repository root is on sys.path for test imports
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+if ROOT_DIR not in sys.path:
+    sys.path.insert(0, ROOT_DIR)

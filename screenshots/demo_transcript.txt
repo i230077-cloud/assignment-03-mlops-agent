@@ -1,0 +1,165 @@
+SCENARIO 1: Dataset Provenance
+USER QUERY: Which dataset version was used for training our recent experiments and what is its Git commit and DVC hash?
+======================================================================
+                MLOPS INTELLIGENT AGENT RESPONSE
+======================================================================
+
+### DIRECT ANSWER:
+Dataset 'customer_churn.csv' is tracked at version v2.0 associated with Git commit ad6fb25d and DVC md5 90777de9.
+
+### 1. KNOWN FACTS:
+  * Git Commit: ad6fb25de44d410c07df660ca0d9542a6b51a7d2
+  * Git Tag: v2.0
+  * DVC MD5: 90777de98deb16fcd13b0a30d430c68c
+  * Remote Storage: localremote (C:/Users/Saad/.dvc_remote)
+
+### 2. UNCERTAINTIES & BOUNDARIES:
+  * Remote S3/Blob sync latency was not evaluated.
+
+### 3. RECOMMENDED ACTIONS:
+  * Use `git checkout <tag>` followed by `dvc checkout` to reproduce previous versions.
+
+### 4. RETRAINING POLICY ASSESSMENT:
+  * Retraining Recommended: NO
+  * Justification: Dataset inspection query only; retraining not requested.
+
+### 5. OPERATIONAL EVIDENCE (TOOL EXECUTIONS):
+Tool Name                      | Status   | Duration (ms)  | Timestamp
+---------------------------------------------------------------------------
+get_dataset_provenance         | SUCCESS  | 94.53          | 2026-11-15T13:19:10Z
+======================================================================
+================================================================================
+
+SCENARIO 2: Model Selection
+USER QUERY: Compare recent training runs in MLflow and recommend the best candidate based on F1 score and production readiness.
+======================================================================
+                MLOPS INTELLIGENT AGENT RESPONSE
+======================================================================
+
+### DIRECT ANSWER:
+Compared 3 recent training runs across metrics, parameters, and DVC tags.
+
+### 1. KNOWN FACTS:
+  * Run 0f9fb9e4 (logistic_regression): Accuracy=0.7417, F1=0.0000
+  * Run 5d69abbd (gradient_boosting): Accuracy=0.6750, F1=0.0930
+  * Run f877a3d9 (random_forest): Accuracy=0.7333, F1=0.0000
+
+### 2. UNCERTAINTIES & BOUNDARIES:
+  * A/B testing user impact metrics remain to be measured in staging.
+
+### 3. RECOMMENDED ACTIONS:
+  * Select candidates that satisfy both accuracy (>0.70) and low inference latency.
+
+### 4. RETRAINING POLICY ASSESSMENT:
+  * Retraining Recommended: NO
+  * Justification: Model evaluation query only.
+
+### 5. OPERATIONAL EVIDENCE (TOOL EXECUTIONS):
+Tool Name                      | Status   | Duration (ms)  | Timestamp
+---------------------------------------------------------------------------
+list_experiments_and_runs      | SUCCESS  | 34.88          | 2026-11-15T13:19:10Z
+compare_runs                   | SUCCESS  | 21.97          | 2026-11-15T13:19:10Z
+======================================================================
+================================================================================
+
+SCENARIO 3: Pipeline Execution
+USER QUERY: Trigger the model training pipeline customer_churn_training_pipeline and report execution status and stages.
+======================================================================
+                MLOPS INTELLIGENT AGENT RESPONSE
+======================================================================
+
+### DIRECT ANSWER:
+Triggered approved training DAG 'customer_churn_training_pipeline' (Run ID: manual__2026-11-15T13:19:10Z).
+
+### 1. KNOWN FACTS:
+  * DAG ID: customer_churn_training_pipeline
+  * Execution State: queued_and_started
+  * Stages Scheduled: ['validate_dataset', 'preprocess_data', 'train_model', 'evaluate_and_log_mlflow', 'apply_model_quality_gate']
+
+### 2. UNCERTAINTIES & BOUNDARIES:
+  * None identified with current operational telemetry.
+
+### 3. RECOMMENDED ACTIONS:
+  * Monitor DAG run progress using `get_dag_run_status`.
+
+### 4. RETRAINING POLICY ASSESSMENT:
+  * Retraining Recommended: NO
+  * Justification: Airflow pipeline inspection/operation.
+
+### 5. OPERATIONAL EVIDENCE (TOOL EXECUTIONS):
+Tool Name                      | Status   | Duration (ms)  | Timestamp
+---------------------------------------------------------------------------
+trigger_dag_run                | SUCCESS  | 0.00           | 2026-11-15T13:19:10Z
+======================================================================
+================================================================================
+
+SCENARIO 4: Deployment Diagnosis
+USER QUERY: Why is my prediction API / canary unavailable in the mlops namespace?
+======================================================================
+                MLOPS INTELLIGENT AGENT RESPONSE
+======================================================================
+
+### DIRECT ANSWER:
+The prediction API / canary is unavailable because Pod 'broken-model-canary-6699ff-err01' is trapped in CrashLoopBackOff. Root cause: Exit Code 137 (OOMKilled) — model memory requirement exceeded the container limit of 512Mi.
+
+### 1. KNOWN FACTS:
+  * Pod phase: CrashLoopBackOff with 5 restarts.
+  * Warning event: OOMKilled - memory limit exceeded.
+  * Log confirmation: Fatal exception during model loading: MemoryError.
+
+### 2. UNCERTAINTIES & BOUNDARIES:
+  * None identified with current operational telemetry.
+
+### 3. RECOMMENDED ACTIONS:
+  * Increase memory limit from 512Mi to 1Gi in kubernetes/deployment.yaml.
+  * Apply updated manifest with explicit user confirmation.
+
+### 4. RETRAINING POLICY ASSESSMENT:
+  * Retraining Recommended: NO
+  * Justification: Kubernetes operations inspection.
+
+### 5. OPERATIONAL EVIDENCE (TOOL EXECUTIONS):
+Tool Name                      | Status   | Duration (ms)  | Timestamp
+---------------------------------------------------------------------------
+get_unhealthy_pods_and_events  | SUCCESS  | 0.00           | 2026-11-15T13:19:10Z
+get_pod_status_and_logs        | SUCCESS  | 0.00           | 2026-11-15T13:19:10Z
+======================================================================
+================================================================================
+
+SCENARIO 5: Multi-Tool Reasoning (Mandatory)
+USER QUERY: Find the best recent model, identify the dataset version used to train it, check the deployment status, and explain whether retraining is necessary.
+======================================================================
+                MLOPS INTELLIGENT AGENT RESPONSE
+======================================================================
+
+### DIRECT ANSWER:
+The best recent model identified in MLflow is the gradient_boosting run (5d69abbd) trained on DVC dataset version v2.0 (commit ad6fb25d). The Kubernetes inference deployment is active and healthy (2/2 replicas running version v1.2.0). Retraining is currently NOT necessary and has not been initiated automatically.
+
+### 1. KNOWN FACTS:
+  * MLflow: Best candidate model run ID '5d69abbd8f164c14b0540aca6d99e5c4' (gradient_boosting) achieved metric value 0.0930.
+  * DVC: Model was trained against dataset version 'v2.0' (Git commit ad6fb25d, DVC hash 90777de9).
+  * Kubernetes: Deployment 'churn-inference-deployment' is HEALTHY (2/2 replicas ready, image version v1.2.0).
+  * Airflow: Most recent pipeline run for 'customer_churn_training_pipeline' is in 'SUCCESS' state.
+
+### 2. UNCERTAINTIES & BOUNDARIES:
+  * Production inference data drift metrics over the past 24 hours have not been supplied in the query.
+
+### 3. RECOMMENDED ACTIONS:
+  * Maintain current deployment version in production without triggering redundant retraining.
+  * Monitor real-time prediction accuracy and Kolmogorov-Smirnov drift metrics on incoming inference payloads.
+  * If retraining is desired for hyperparameter tuning, trigger the approved DAG via `trigger_dag_run(dag_id='customer_churn_training_pipeline')`.
+
+### 4. RETRAINING POLICY ASSESSMENT:
+  * Retraining Recommended: NO
+  * Justification: AUTOMATIC RETRAINING NOT INITIATED: The current deployment is healthy, the candidate model is trained on the latest reproducible dataset (v2.0), and the recent training pipeline completed successfully. Retraining should only be triggered if explicit evidence of statistical data drift, a failed quality gate, or model accuracy degradation below baseline (0.70) is confirmed.
+
+### 5. OPERATIONAL EVIDENCE (TOOL EXECUTIONS):
+Tool Name                      | Status   | Duration (ms)  | Timestamp
+---------------------------------------------------------------------------
+get_best_run                   | SUCCESS  | 14.66          | 2026-11-15T13:19:10Z
+get_dataset_provenance         | SUCCESS  | 88.34          | 2026-11-15T13:19:10Z
+get_deployed_version           | SUCCESS  | 0.00           | 2026-11-15T13:19:10Z
+get_dag_run_status             | SUCCESS  | 0.00           | 2026-11-15T13:19:10Z
+======================================================================
+================================================================================
+

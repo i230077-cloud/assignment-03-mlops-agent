@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: churn-service-config
+  namespace: default
+  labels:
+    app.kubernetes.io/name: churn-inference
+    app.kubernetes.io/part-of: mlops-platform
+data:
+  MODEL_NAME: "CustomerChurnModel"
+  ENVIRONMENT: "production"
+  LOG_LEVEL: "INFO"
+  APP_VERSION: "v1.2.0"
+  PREDICTION_THRESHOLD: "0.50"
+  DATASET_PROVENANCE_TAG: "v2.0"

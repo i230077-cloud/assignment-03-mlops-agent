@@ -1,0 +1,11 @@
+stages:
+  train:
+    cmd: python training/train.py --model-type random_forest --n-estimators 100 --max-depth 5
+    deps:
+      - data/raw/customer_churn.csv
+      - training/train.py
+    outs:
+      - artifacts/cm_random_forest.png:
+          cache: true
+      - artifacts/summary_random_forest.json:
+          cache: true
